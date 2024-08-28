@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.ericsson.nms.litp.3pps</groupId>
+    <artifactId>EXTRlitppythonkombu_CXP9032839</artifactId>
+    <packaging>${rpm.packaging}</packaging>
+    <name>[${project.artifactId}] RPM module</name>
+    <description>Python package Kombu ${kombu.version} packaged by Ericsson</description>
+    <parent>
+        <groupId>com.ericsson.nms.litp.3pps</groupId>
+        <artifactId>EXTRlitppythonkombu</artifactId>
+        <version>2.2.3-SNAPSHOT</version>
+    </parent>
+    <properties>
+        <!-- publishes the rpm module to the ci portal -->
+        <publish_artifact>true</publish_artifact>
+        <packaging.type>rpm</packaging.type>
+    </properties>
+    <build>
+        <plugins>
+            <!-- TODO Use the factored config in the parent POM -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>rpm-maven-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <inherited>true</inherited>
+                    <copyright>2012 Ericsson AB All rights reserved</copyright>
+                    <summary>${stripped.artifactId}</summary>
+                    <packager>${ericsson.rstate}</packager>
+                    <group>ERI-NMS</group>
+                    <requires>
+                        <require>python &gt;= 2.7</require>
+                        <require>EXTRlitppythonamqp_CXP9032835 &gt;= 1.0.1</require>
+                        <require>EXTRlitppythonanyjson_CXP9032836 &gt;= 1.0.1</require>
+                        <require>EXTRlitppythonimportlib_CXP9032838 &gt;= 1.0.1</require>
+                    </requires>
+                    <vendor>Ericsson AB</vendor>
+                    <url>www.ericsson.com</url>
+                    <defineStatements>
+                        <defineStatement>_unpackaged_files_terminate_build 0</defineStatement>
+                    </defineStatements>
+                    <defaultFilemode>0755</defaultFilemode>
+                    <defaultDirmode>0755</defaultDirmode>
+                    <defaultUsername>root</defaultUsername>
+                    <defaultGroupname>root</defaultGroupname>
+                    <mappings>
+                        <mapping>
+                            <directory>/</directory>
+                            <directoryIncluded>false</directoryIncluded>
+                            <filemode>755</filemode>
+                            <username>root</username>
+                            <groupname>root</groupname>
+                            <sources>
+                                <source>
+                                    <location>${project.build.directory}/../../Builder/target/staging</location>
+                                </source>
+                            </sources>
+                        </mapping>
+                    </mappings>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
